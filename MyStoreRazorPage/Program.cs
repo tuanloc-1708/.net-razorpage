@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MyStore.Business.LocNT;
+using MyStore.DBContext.LocNT;
 using MyStore.Repositories.LocNT;
 using MyStore.Services.LocNT;
 
@@ -12,7 +12,7 @@ builder.Services.AddRazorPages();
 
 //DataBase
 builder.Services.AddDbContext<MyStoreContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaulConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //repository
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
@@ -25,8 +25,21 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
 
+
+
+//session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(5);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 //build
 var app = builder.Build();
+
+
 
 
 

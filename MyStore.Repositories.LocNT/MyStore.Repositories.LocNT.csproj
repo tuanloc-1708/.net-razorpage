@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyStore.DBContext.LocNT\MyStore.DBContext.LocNT.csproj" />
-    <ProjectReference Include="..\MyStoreRazorPage\MyStoreRazorPage.csproj" />
   </ItemGroup>
 
 </Project>

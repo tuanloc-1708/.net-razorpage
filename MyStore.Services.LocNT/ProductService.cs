@@ -1,10 +1,5 @@
 ﻿using MyStore.Business.LocNT;
 using MyStore.Repositories.LocNT;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyStore.Services.LocNT
 {
@@ -12,7 +7,7 @@ namespace MyStore.Services.LocNT
     {
         private readonly IProductRepository _productRepository;
 
-        private ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using MyStore.Business.LocNT;
 
-namespace MyStore.Business.LocNT;
+namespace MyStore.DBContext.LocNT;
 
 public partial class MyStoreContext : DbContext
 {
