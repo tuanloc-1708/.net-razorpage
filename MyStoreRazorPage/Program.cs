@@ -12,6 +12,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<MyStoreContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaulConnection")));
 
+//repository
+
+
+//service
 
 
 var app = builder.Build();
