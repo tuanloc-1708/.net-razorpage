@@ -8,29 +8,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyStore.Business.LocNT;
 using MyStore.DBContext.LocNT;
+using MyStore.Services.LocNT;
 
 namespace MyStoreRazorPage.Pages.Categories
 {
     public class EditModel : PageModel
     {
-        private readonly MyStore.DBContext.LocNT.MyStoreContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public EditModel(MyStore.DBContext.LocNT.MyStoreContext context)
+        public EditModel(ICategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
         [BindProperty]
         public Category Category { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category =  await _context.Categories.FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category = _categoryService.GetCategory(id.Value);
             if (category == null)
             {
                 return NotFound();
@@ -39,39 +40,18 @@ namespace MyStoreRazorPage.Pages.Categories
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+      
+        public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Attach(Category).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CategoryExists(Category.CategoryId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _categoryService.UpdateCategory(Category);
 
             return RedirectToPage("./Index");
         }
 
-        private bool CategoryExists(int id)
-        {
-            return _context.Categories.Any(e => e.CategoryId == id);
-        }
     }
 }

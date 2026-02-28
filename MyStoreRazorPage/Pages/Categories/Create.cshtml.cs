@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyStore.Business.LocNT;
 using MyStore.DBContext.LocNT;
+using MyStore.Services.LocNT;
 
 namespace MyStoreRazorPage.Pages.Categories
 {
     public class CreateModel : PageModel
     {
-        private readonly MyStore.DBContext.LocNT.MyStoreContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public CreateModel(MyStore.DBContext.LocNT.MyStoreContext context)
+        public CreateModel(ICategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
         public IActionResult OnGet()

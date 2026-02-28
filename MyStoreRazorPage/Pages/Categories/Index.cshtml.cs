@@ -7,23 +7,24 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MyStore.Business.LocNT;
 using MyStore.DBContext.LocNT;
+using MyStore.Services.LocNT;
 
 namespace MyStoreRazorPage.Pages.Categories
 {
     public class IndexModel : PageModel
     {
-        private readonly MyStore.DBContext.LocNT.MyStoreContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public IndexModel(MyStore.DBContext.LocNT.MyStoreContext context)
+        public IndexModel(ICategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
         public IList<Category> Category { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public void Onget()
         {
-            Category = await _context.Categories.ToListAsync();
+            Category = _categoryService.GetCategories();
         }
     }
 }

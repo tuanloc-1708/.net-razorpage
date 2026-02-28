@@ -7,28 +7,29 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MyStore.Business.LocNT;
 using MyStore.DBContext.LocNT;
+using MyStore.Services.LocNT;
 
 namespace MyStoreRazorPage.Pages.Categories
 {
     public class DetailsModel : PageModel
     {
-        private readonly MyStore.DBContext.LocNT.MyStoreContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public DetailsModel(MyStore.DBContext.LocNT.MyStoreContext context)
+        public DetailsModel(ICategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
         public Category Category { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category = _categoryService.GetCategory(id.Value);
             if (category == null)
             {
                 return NotFound();
