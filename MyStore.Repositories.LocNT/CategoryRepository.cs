@@ -12,13 +12,13 @@ namespace MyStore.Repositories.LocNT
             _context = context;
         }
 
-        public void Add(Category c)
+        public void AddCategory(Category c)
         {
             _context.Categories.Add(c);
             _context.SaveChanges();
         }
 
-        public void Update(Category updateCategory)
+        public void UpdateCategory(Category updateCategory)
         {
             var existongCategory = _context.Categories.FirstOrDefault(c => c.CategoryId == updateCategory.CategoryId);
             if (existongCategory != null) 
@@ -33,6 +33,17 @@ namespace MyStore.Repositories.LocNT
         public List<Category> GetCategories() 
         { 
             return _context.Categories.ToList();
+        }
+
+        public Category GetCategory(int id)
+        {
+            return _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+        }
+
+        public void DeleteCategory(Category category)
+        {
+            _context.Remove(category);
+            _context.SaveChanges();
         }
     }
 }
