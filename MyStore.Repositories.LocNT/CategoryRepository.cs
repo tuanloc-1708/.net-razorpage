@@ -12,6 +12,24 @@ namespace MyStore.Repositories.LocNT
             _context = context;
         }
 
+        public void Add(Category c)
+        {
+            _context.Categories.Add(c);
+            _context.SaveChanges();
+        }
+
+        public void Update(Category updateCategory)
+        {
+            var existongCategory = _context.Categories.FirstOrDefault(c => c.CategoryId == updateCategory.CategoryId);
+            if (existongCategory != null) 
+            { 
+                existongCategory.CategoryId = updateCategory.CategoryId;
+                existongCategory.CategoryName = updateCategory.CategoryName;
+
+                _context.SaveChanges();
+            }
+
+        }
         public List<Category> GetCategories() 
         { 
             return _context.Categories.ToList();

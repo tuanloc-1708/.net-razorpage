@@ -34,10 +34,21 @@ namespace MyStore.Repositories.LocNT
             _context.SaveChanges();
         }
 
+       
         public void UpdateProduct(Product p)
         {
-            _context.Products.Remove(p);
-            _context.SaveChanges();
+            var existingProduct = _context.Products.FirstOrDefault(p => p.ProductId == p.ProductId);
+
+            if (existingProduct != null)
+            {
+                existingProduct.ProductName = p.ProductName;
+                existingProduct.CategoryId = p.CategoryId;
+                existingProduct.UnitPrice = p.UnitPrice;
+                existingProduct.UnitsInStock = p.UnitsInStock;
+
+             
+                _context.SaveChanges();
+            }
         }
     }
 }

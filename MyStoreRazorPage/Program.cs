@@ -7,7 +7,10 @@ using MyStore.Services.LocNT;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AddPageRoute("/Products/Index", "");
+});
 
 
 //DataBase
