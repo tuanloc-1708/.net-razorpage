@@ -2,29 +2,30 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MyStore.Business.LocNT;
+using MyStore.Services.LocNT;
 
 namespace MyStoreRazorPage.Pages.Products
 {
     public class DeleteModel : PageModel
     {
-        private readonly MyStore.DBContext.LocNT.MyStoreContext _context;
+        private readonly IProductService _productService;
 
-        public DeleteModel(MyStore.DBContext.LocNT.MyStoreContext context)
+        public DeleteModel(IProductService productService)
         {
-            _context = context;
+            _productService = productService;
         }
 
         [BindProperty]
         public Product Product { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FirstOrDefaultAsync(m => m.ProductId == id);
+            var product = _productService.GetProductById(id.Value);
 
             if (product == null)
             {
@@ -37,19 +38,19 @@ namespace MyStoreRazorPage.Pages.Products
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public IActionResult OnPost(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = _productService?.GetProductById(id.Value);
+
             if (product != null)
             {
                 Product = product;
-                _context.Products.Remove(Product);
-                await _context.SaveChangesAsync();
+                _productService.DeleteProduct(product);
             }
 
             return RedirectToPage("./Index");

@@ -2,37 +2,41 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyStore.Business.LocNT;
+using MyStore.Services.LocNT;
 
 namespace MyStoreRazorPage.Pages.Products
 {
     public class CreateModel : PageModel
     {
-        private readonly MyStore.DBContext.LocNT.MyStoreContext _context;
+        private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
 
-        public CreateModel(MyStore.DBContext.LocNT.MyStoreContext context)
+        public CreateModel(IProductService productService, ICategoryService categoryService)
         {
-            _context = context;
+            _productService = productService;
+            _categoryService = categoryService;
         }
 
         public IActionResult OnGet()
-        {
-        ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
+        {   
+            var categories = _categoryService.GetCategories();
+            ViewData["CategoryId"] = new SelectList(categories, "CategoryId", "CategoryName");
             return Page();
         }
 
         [BindProperty]
         public Product Product { get; set; } = default!;
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public  IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
+                var categories = _categoryService.GetCategories();
+                ViewData["CategoryId"] = new SelectList(categories, "CategoryId", "CategoryName");
                 return Page();
             }
 
-            _context.Products.Add(Product);
-            await _context.SaveChangesAsync();
+            _productService.DeleteProduct(Product);
 
             return RedirectToPage("./Index");
         }
