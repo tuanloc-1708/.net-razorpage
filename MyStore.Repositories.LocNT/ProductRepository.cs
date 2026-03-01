@@ -15,7 +15,8 @@ namespace MyStore.Repositories.LocNT
 
         public void DeleteProduct(Product p)
         {
-            throw new NotImplementedException();
+            _context.Products.Remove(p);
+            _context.SaveChanges();
         }
 
         public List<Product> GetAllProducts()

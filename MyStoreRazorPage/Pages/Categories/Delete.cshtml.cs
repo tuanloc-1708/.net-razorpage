@@ -7,29 +7,30 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MyStore.Business.LocNT;
 using MyStore.DBContext.LocNT;
+using MyStore.Services.LocNT;
 
 namespace MyStoreRazorPage.Pages.Categories
 {
     public class DeleteModel : PageModel
     {
-        private readonly MyStore.DBContext.LocNT.MyStoreContext _context;
+        private readonly ICategoryService _categoryService;
 
-        public DeleteModel(MyStore.DBContext.LocNT.MyStoreContext context)
+        public DeleteModel(ICategoryService categoryService)
         {
-            _context = context;
+            _categoryService = categoryService;
         }
 
         [BindProperty]
         public Category Category { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category = _categoryService.GetCategory(id.Value);
 
             if (category == null)
             {
@@ -42,19 +43,18 @@ namespace MyStoreRazorPage.Pages.Categories
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public IActionResult OnPost(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
+            var category = _categoryService.GetCategory(id.Value);
             if (category != null)
             {
                 Category = category;
-                _context.Categories.Remove(Category);
-                await _context.SaveChangesAsync();
+                _categoryService.DeleteCategory(category);
             }
 
             return RedirectToPage("./Index");
