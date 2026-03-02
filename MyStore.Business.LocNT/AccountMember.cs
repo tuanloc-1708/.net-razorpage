@@ -1,4 +1,7 @@
-﻿namespace MyStore.Business.LocNT;
+﻿using System;
+using System.Collections.Generic;
+
+namespace MyStore.Business.LocNT;
 
 public partial class AccountMember
 {

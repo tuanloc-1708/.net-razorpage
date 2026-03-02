@@ -1,4 +1,7 @@
-﻿namespace MyStore.Business.LocNT;
+﻿using System;
+using System.Collections.Generic;
+
+namespace MyStore.Business.LocNT;
 
 public partial class Product
 {
@@ -6,11 +9,11 @@ public partial class Product
 
     public string ProductName { get; set; } = null!;
 
-    public int? CategoryId { get; set; }
+    public int UnitsInStock { get; set; }
 
-    public int? UnitsInStock { get; set; }
+    public decimal UnitPrice { get; set; }
 
-    public decimal? UnitPrice { get; set; }
+    public int CategoryId { get; set; }
 
-    public virtual Category? Category { get; set; }
+    public virtual Category Category { get; set; } = null!;
 }

@@ -29,6 +29,7 @@ namespace MyStoreRazorPage.Pages.Products
 
         public  IActionResult OnPost()
         {
+            ModelState.Remove("Product.Category");
             if (!ModelState.IsValid)
             {
                 var categories = _categoryService.GetCategories();
@@ -36,7 +37,7 @@ namespace MyStoreRazorPage.Pages.Products
                 return Page();
             }
 
-            _productService.DeleteProduct(Product);
+            _productService.SaveProduct(Product);
 
             return RedirectToPage("./Index");
         }

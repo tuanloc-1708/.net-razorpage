@@ -15,10 +15,30 @@ namespace MyStore.Repositories.LocNT
 
         public void DeleteProduct(Product p)
         {
-            _context.Products.Remove(p);
-            _context.SaveChanges();
+            var existingProduct = _context.Products.FirstOrDefault(pr => pr.ProductId == p.ProductId);
+
+            if (existingProduct != null)
+            {
+                _context.Products.Remove(existingProduct);
+                _context.SaveChanges();
+            }
         }
 
+        public void UpdateProduct(Product p)
+        {
+            var existingProduct = _context.Products.FirstOrDefault(pr => pr.ProductId == p.ProductId);
+
+            if (existingProduct != null)
+            {
+                existingProduct.ProductName = p.ProductName;
+                existingProduct.CategoryId = p.CategoryId;
+                existingProduct.UnitPrice = p.UnitPrice;
+                existingProduct.UnitsInStock = p.UnitsInStock;
+
+
+                _context.SaveChanges();
+            }
+        }
         public List<Product> GetAllProducts()
         {
             return _context.Products.Include(p => p.Category).ToList();
@@ -36,20 +56,6 @@ namespace MyStore.Repositories.LocNT
         }
 
        
-        public void UpdateProduct(Product p)
-        {
-            var existingProduct = _context.Products.FirstOrDefault(p => p.ProductId == p.ProductId);
-
-            if (existingProduct != null)
-            {
-                existingProduct.ProductName = p.ProductName;
-                existingProduct.CategoryId = p.CategoryId;
-                existingProduct.UnitPrice = p.UnitPrice;
-                existingProduct.UnitsInStock = p.UnitsInStock;
-
-             
-                _context.SaveChanges();
-            }
-        }
+        
     }
 }
