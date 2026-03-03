@@ -12,29 +12,29 @@ namespace MyStore.Services.LocNT
             _categoryRepository = categoryRepository;
         }
 
-        public void AddCategory(Category category)
+        public async Task AddCategoryAsync(Category category)
         {
-            _categoryRepository.AddCategory(category);
+            await _categoryRepository.AddCategoryAsync(category);
         }
 
-        public void DeleteCategory(Category category)
+        public async Task DeleteCategoryAsync(Category category)
         {
-            _categoryRepository.DeleteCategory(category);
+            await _categoryRepository.DeleteCategoryAsync(category);
         }
 
-        public List<Category> GetCategories()
+        public async Task<List<Category>> GetCategoriesAsync()
         {
-            return _categoryRepository.GetCategories();
+            return await _categoryRepository.GetCategoriesAsync();
         }
 
-        public Category GetCategory(int id)
+        public async Task<Category?> GetCategoryAsync(int id)
         {
-            return _categoryRepository.GetCategory(id);
+            return await _categoryRepository.GetCategoryAsync(id);
         }
 
-        public void UpdateCategory(Category category)
+        public async Task UpdateCategoryAsync(Category category)
         {
-            _categoryRepository.UpdateCategory(category);
+            await _categoryRepository.UpdateCategoryAsync(category);
         }
     }
 }

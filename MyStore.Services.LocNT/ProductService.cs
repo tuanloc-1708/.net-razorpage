@@ -11,29 +11,29 @@ namespace MyStore.Services.LocNT
         {
             _productRepository = productRepository;
         }
-        public void DeleteProduct(Product p)
+        public async Task DeleteProductAsync(Product p)
         {
-            _productRepository.DeleteProduct(p);
+            await _productRepository.DeleteProductAsync(p);
         }
 
-        public List<Product> GetAllProducts()
+        public async Task<List<Product>> GetAllProductsAsync()
         {
-            return _productRepository.GetAllProducts();
+            return await _productRepository.GetAllProductsAsync();
         }
 
-        public Product GetProductById(int id)
+        public async Task<Product?> GetProductByIdAsync(int id)
         {
-            return _productRepository.GetProductByID(id);
+            return await _productRepository.GetProductByIDAsync(id);
         }
 
-        public void SaveProduct(Product p)
+        public async Task SaveProductAsync(Product p)
         {
-            _productRepository.SaveProduct(p);  
+            await _productRepository.SaveProductAsync(p);  
         }
 
-        public void UpdateProduct(Product p)
+        public async Task UpdateProductAsync(Product p)
         {
-            _productRepository.UpdateProduct(p);
+            await _productRepository.UpdateProductAsync(p);
         }
     }
 }

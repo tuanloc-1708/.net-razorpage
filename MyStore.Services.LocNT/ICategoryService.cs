@@ -4,10 +4,10 @@ namespace MyStore.Services.LocNT
 {
     public interface ICategoryService
     {
-        List<Category> GetCategories();
-        void AddCategory(Category category);
-        void UpdateCategory(Category category);
-        void DeleteCategory(Category category);
-        Category GetCategory(int id);
+        Task<List<Category>> GetCategoriesAsync();
+        Task AddCategoryAsync(Category category);
+        Task UpdateCategoryAsync(Category category);
+        Task DeleteCategoryAsync(Category category);
+        Task<Category?> GetCategoryAsync(int id);
     }
 }
