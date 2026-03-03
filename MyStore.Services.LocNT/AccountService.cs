@@ -12,9 +12,9 @@ namespace MyStore.Services.LocNT
             _accountRepository = accountRepository;
         }
 
-        public AccountMember GetAccountByEmail(string email)
+        public AccountMember Login(string email, string password)
         {
-            return _accountRepository.GetAccountByEmail(email);
+            return _accountRepository.GetAccountByEmailAndPassWord(email, password);
         }
     }
 }

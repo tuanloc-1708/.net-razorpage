@@ -4,6 +4,6 @@ namespace MyStore.Services.LocNT
 {
     public interface IAccountService
     {
-        AccountMember GetAccountByEmail(string email);
+        AccountMember Login(string email, string password);
     }
 }

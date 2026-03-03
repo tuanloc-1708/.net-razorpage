@@ -4,6 +4,6 @@ namespace MyStore.Repositories.LocNT
 {
     public interface IAccountRepository
     {
-        AccountMember GetAccountByEmail(string email);
+        AccountMember GetAccountByEmailAndPassWord(string email, string password);
     }
 }
