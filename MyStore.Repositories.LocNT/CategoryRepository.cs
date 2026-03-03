@@ -1,4 +1,5 @@
-﻿using MyStore.Business.LocNT;
+﻿using Microsoft.EntityFrameworkCore;
+using MyStore.Business.LocNT;
 using MyStore.DBContext.LocNT;
 
 namespace MyStore.Repositories.LocNT
@@ -12,38 +13,38 @@ namespace MyStore.Repositories.LocNT
             _context = context;
         }
 
-        public void AddCategory(Category c)
+        public async Task AddCategoryAsync(Category c)
         {
-            _context.Categories.Add(c);
-            _context.SaveChanges();
+            await _context.Categories.AddAsync(c);
+            await _context.SaveChangesAsync();
         }
 
-        public void UpdateCategory(Category updateCategory)
+        public async Task UpdateCategoryAsync(Category updateCategory)
         {
-            var existongCategory = _context.Categories.FirstOrDefault(c => c.CategoryId == updateCategory.CategoryId);
-            if (existongCategory != null) 
+            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == updateCategory.CategoryId);
+            if (existingCategory != null) 
             { 
-                existongCategory.CategoryId = updateCategory.CategoryId;
-                existongCategory.CategoryName = updateCategory.CategoryName;
+                existingCategory.CategoryId = updateCategory.CategoryId;
+                existingCategory.CategoryName = updateCategory.CategoryName;
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
         }
-        public List<Category> GetCategories() 
+        public async Task<List<Category>> GetCategoriesAsync() 
         { 
-            return _context.Categories.ToList();
+            return await _context.Categories.ToListAsync();
         }
 
-        public Category GetCategory(int id)
+        public async Task<Category?> GetCategoryAsync(int id)
         {
-            return _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+            return await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == id);
         }
 
-        public void DeleteCategory(Category category)
+        public async Task DeleteCategoryAsync(Category category)
         {
             _context.Remove(category);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

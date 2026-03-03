@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyStore.Business.LocNT;
 using MyStore.DBContext.LocNT;
+using System.Threading.Tasks;
 
 namespace MyStore.Repositories.LocNT
 {
@@ -13,20 +14,20 @@ namespace MyStore.Repositories.LocNT
             _context = context;
         }
 
-        public void DeleteProduct(Product p)
+        public async Task DeleteProductAsync(Product p)
         {
-            var existingProduct = _context.Products.FirstOrDefault(pr => pr.ProductId == p.ProductId);
+            var existingProduct = await _context.Products.FirstOrDefaultAsync(pr => pr.ProductId == p.ProductId);
 
             if (existingProduct != null)
             {
                 _context.Products.Remove(existingProduct);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
-        public void UpdateProduct(Product p)
+        public async Task UpdateProductAsync(Product p)
         {
-            var existingProduct = _context.Products.FirstOrDefault(pr => pr.ProductId == p.ProductId);
+            var existingProduct = await _context.Products.FirstOrDefaultAsync(pr => pr.ProductId == p.ProductId);
 
             if (existingProduct != null)
             {
@@ -35,27 +36,24 @@ namespace MyStore.Repositories.LocNT
                 existingProduct.UnitPrice = p.UnitPrice;
                 existingProduct.UnitsInStock = p.UnitsInStock;
 
-
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
-        public List<Product> GetAllProducts()
+        public async Task<List<Product>> GetAllProductsAsync()
         {
-            return _context.Products.Include(p => p.Category).ToList();
+            return await _context.Products.Include(p => p.Category).ToListAsync();
         }
 
-        public Product GetProductByID(int id)
+        public async Task<Product?> GetProductByIDAsync(int id)
         {
-            return _context.Products.FirstOrDefault(p => p.ProductId == id);
+            return await _context.Products.FirstOrDefaultAsync(p => p.ProductId == id);
         }
 
-        public void SaveProduct(Product p)
+        public async Task SaveProductAsync(Product p)
         {
-            _context.Products.Add(p);
-            _context.SaveChanges();
+            await _context.Products.AddAsync(p);
+            await _context.SaveChangesAsync();
         }
-
-       
         
     }
 }

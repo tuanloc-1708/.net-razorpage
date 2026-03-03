@@ -4,10 +4,10 @@ namespace MyStore.Repositories.LocNT
 {
     public interface IProductRepository
     {
-        void SaveProduct(Product p);
-        void DeleteProduct(Product p);
-        void UpdateProduct(Product p);
-        List<Product> GetAllProducts();
-        Product GetProductByID(int id);
+        Task SaveProductAsync(Product p);
+        Task DeleteProductAsync(Product p);
+        Task UpdateProductAsync(Product p);
+        Task<List<Product>> GetAllProductsAsync();
+        Task<Product?> GetProductByIDAsync(int id);
     }
 }

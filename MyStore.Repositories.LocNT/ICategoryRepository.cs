@@ -4,10 +4,10 @@ namespace MyStore.Repositories.LocNT
 {
     public interface ICategoryRepository
     {
-        Category GetCategory(int id);
-        void AddCategory(Category category);
-        void UpdateCategory(Category category);
-        void DeleteCategory(Category category);
-        List<Category> GetCategories();
+        Task<Category?> GetCategoryAsync(int id);
+        Task AddCategoryAsync(Category category);
+        Task UpdateCategoryAsync(Category category);
+        Task DeleteCategoryAsync(Category category);
+        Task<List<Category>> GetCategoriesAsync();
     }
 }

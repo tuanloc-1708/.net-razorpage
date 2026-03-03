@@ -1,4 +1,5 @@
-﻿using MyStore.Business.LocNT;
+﻿using Microsoft.EntityFrameworkCore;
+using MyStore.Business.LocNT;
 using MyStore.DBContext.LocNT;
 
 namespace MyStore.Repositories.LocNT
@@ -12,9 +13,9 @@ namespace MyStore.Repositories.LocNT
             _context = context;
         }
 
-        public AccountMember GetAccountByEmailAndPassWord(string email, string password)
+        public async Task<AccountMember?> GetAccountByEmailAndPassWordAsync(string email, string password)
         {
-            return _context.AccountMembers.FirstOrDefault(a =>
+            return await _context.AccountMembers.FirstOrDefaultAsync(a =>
                 a.EmailAddress == email && a.MemberPassword == password);
         }
     }
