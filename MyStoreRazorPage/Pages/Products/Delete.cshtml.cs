@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyStore.Business.LocNT;
 using MyStore.Services.LocNT;
+using System.Threading.Tasks;
 
 namespace MyStoreRazorPage.Pages.Products
 {
@@ -17,14 +18,14 @@ namespace MyStoreRazorPage.Pages.Products
         [BindProperty]
         public Product Product { get; set; } = default!;
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = _productService.GetProductById(id.Value);
+            var product = await _productService.GetProductByIdAsync(id.Value);
 
             if (product == null)
             {
@@ -37,19 +38,19 @@ namespace MyStoreRazorPage.Pages.Products
             return Page();
         }
 
-        public IActionResult OnPost(int? id)
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = _productService?.GetProductById(id.Value);
+            var product = await _productService.GetProductByIdAsync(id.Value);
 
             if (product != null)
             {
                 Product = product;
-                _productService.DeleteProduct(product);
+                await _productService.DeleteProductAsync(product);
             }
 
             return RedirectToPage("./Index");

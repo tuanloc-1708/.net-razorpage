@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyStore.Business.LocNT;
 using MyStore.Services.LocNT;
+using System.Threading.Tasks;
 
 namespace MyStoreRazorPage.Pages.Categories
 {
@@ -16,14 +17,14 @@ namespace MyStoreRazorPage.Pages.Categories
 
         public Category Category { get; set; } = default!;
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = _categoryService.GetCategory(id.Value);
+            var category = await _categoryService.GetCategoryAsync(id.Value);
             if (category == null)
             {
                 return NotFound();

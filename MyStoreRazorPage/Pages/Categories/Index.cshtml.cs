@@ -15,9 +15,9 @@ namespace MyStoreRazorPage.Pages.Categories
 
         public IList<Category> Category { get;set; } = default!;
 
-        public void Onget()
+        public async Task OngetAsync()
         {
-            Category = _categoryService.GetCategories();
+            Category = await _categoryService.GetCategoriesAsync();
         }
     }
 }

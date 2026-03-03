@@ -16,9 +16,9 @@ namespace MyStoreRazorPage.Pages.Products
 
         public IList<Product> Product { get;set; } = default!;
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            Product = _productService.GetAllProducts();
+            Product =  await _productService.GetAllProductsAsync();
         }
     }
 }

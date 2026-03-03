@@ -17,14 +17,14 @@ namespace MyStoreRazorPage.Pages.Categories
         [BindProperty]
         public Category Category { get; set; } = default!;
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var category = _categoryService.GetCategory(id.Value);
+            
+            var category = await _categoryService.GetCategoryAsync(id.Value);
 
             if (category == null)
             {
@@ -37,18 +37,18 @@ namespace MyStoreRazorPage.Pages.Categories
             return Page();
         }
 
-        public IActionResult OnPost(int? id)
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = _categoryService.GetCategory(id.Value);
+            var category = await _categoryService.GetCategoryAsync(id.Value);
             if (category != null)
             {
                 Category = category;
-                _categoryService.DeleteCategory(category);
+                await _categoryService.DeleteCategoryAsync(category);
             }
 
             return RedirectToPage("./Index");

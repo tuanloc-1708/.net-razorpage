@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyStore.Business.LocNT;
 using MyStore.Services.LocNT;
+using System.Threading.Tasks;
 
 namespace MyStoreRazorPage.Pages.Products
 {
@@ -17,9 +18,9 @@ namespace MyStoreRazorPage.Pages.Products
             _categoryService = categoryService;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {   
-            var categories = _categoryService.GetCategories();
+            var categories = await _categoryService.GetCategoriesAsync();
             ViewData["CategoryId"] = new SelectList(categories, "CategoryId", "CategoryName");
             return Page();
         }
@@ -27,17 +28,17 @@ namespace MyStoreRazorPage.Pages.Products
         [BindProperty]
         public Product Product { get; set; } = default!;
 
-        public  IActionResult OnPost()
+        public  async Task<IActionResult> OnPostAsync()
         {
             ModelState.Remove("Product.Category");
             if (!ModelState.IsValid)
             {
-                var categories = _categoryService.GetCategories();
+                var categories = await _categoryService.GetCategoriesAsync();
                 ViewData["CategoryId"] = new SelectList(categories, "CategoryId", "CategoryName");
                 return Page();
             }
 
-            _productService.SaveProduct(Product);
+            await _productService.SaveProductAsync(Product);
 
             return RedirectToPage("./Index");
         }

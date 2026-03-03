@@ -20,14 +20,14 @@ namespace MyStoreRazorPage.Pages.Products
         [BindProperty]
         public Product Product { get; set; } = default!;
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
             if(id == null)
             {
                 return NotFound();
             }
 
-            var product = _productService.GetProductById(id.Value);
+            var product = await _productService.GetProductByIdAsync(id.Value);
 
             if (product == null)
             {
@@ -36,22 +36,22 @@ namespace MyStoreRazorPage.Pages.Products
 
             Product = product;
 
-            ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(), "CategoryId", "CategoryName");
+            ViewData["CategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "CategoryName");
 
             return Page();
         }
 
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
 
             if (!ModelState.IsValid)
             {
-                ViewData["CategoryId"] = new SelectList(_categoryService.GetCategories(), "CategoryId", "CategoryName");
+                ViewData["CategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "CategoryName");
                 return Page();
             }
 
-            _productService.UpdateProduct(Product);
+            await _productService.UpdateProductAsync(Product);
 
             return RedirectToPage("./Index");
         }

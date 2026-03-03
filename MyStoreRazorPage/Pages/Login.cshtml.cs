@@ -37,7 +37,7 @@ namespace MyStoreRazorPage.Pages
         public async Task<IActionResult> OnPostAsync()
         {
           
-            var account = _accountService.Login(Email, Password);
+            var account = await _accountService.Login(Email, Password);
 
             if (account == null)
             {
@@ -50,7 +50,7 @@ namespace MyStoreRazorPage.Pages
             {
                 new Claim(ClaimTypes.Name, account.FullName ?? "User"),
                 new Claim(ClaimTypes.Email, account.EmailAddress),
-                new Claim(ClaimTypes.Role, account.MemberRole.ToString()) 
+                new Claim(ClaimTypes.Role, account.MemberRole?.ToString() ?? "Customer") 
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

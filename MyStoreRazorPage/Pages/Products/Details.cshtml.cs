@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyStore.Business.LocNT;
 using MyStore.Services.LocNT;
+using System.Threading.Tasks;
 
 namespace MyStoreRazorPage.Pages.Products
 {
@@ -16,14 +17,14 @@ namespace MyStoreRazorPage.Pages.Products
 
         public Product Product { get; set; } = default!;
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = _productService.GetProductById(id.Value);
+            var product = await _productService.GetProductByIdAsync(id.Value);
 
             if (product == null)
             {

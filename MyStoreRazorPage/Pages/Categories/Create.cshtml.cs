@@ -22,14 +22,14 @@ namespace MyStoreRazorPage.Pages.Categories
         [BindProperty]
         public Category Category { get; set; } = default!;
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _categoryService.AddCategory(Category);
+            await _categoryService.AddCategoryAsync(Category);
 
             return RedirectToPage("./Index");
         }
